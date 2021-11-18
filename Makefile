@@ -22,18 +22,17 @@ test:
 .PHONY: lint
 ## Run all linter checks.
 lint:
-	isort --check .
-	black --check .
-	flake8 .
-	find service -iname '*.py' | xargs mypy
+	isort . --check
+	black . --check --line-length 79
+	flake8 . --exclude .git,__pycache__,venv
+	find air_flags -iname '*.py' | xargs mypy
 	find tests -iname '*.py' | xargs mypy
 
 .PHONY: fmt
-## Apply linter formats.
+## Apply linter format.
 fmt:
 	isort .
-	black .
-	flake8 .
+	black . --line-length 79
 
 help:
 	@echo "Thanks for your interest in Air flags!"
