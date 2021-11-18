@@ -19,6 +19,22 @@ install:
 test:
 	python3 -m pytest
 
+.PHONY: lint
+## Run all linter checks.
+lint:
+	isort --check .
+	black --check .
+	flake8 .
+	find service -iname '*.py' | xargs mypy
+	find tests -iname '*.py' | xargs mypy
+
+.PHONY: fmt
+## Apply linter formats.
+fmt:
+	isort .
+	black .
+	flake8 .
+
 help:
 	@echo "Thanks for your interest in Air flags!"
 	@echo
