@@ -19,6 +19,11 @@ install:
 test:
 	python3 -m pytest
 
+.PHONY: coverage
+## Run the tests with coverage.
+coverage:
+	python -m pytest --cov=air_flags
+
 .PHONY: lint
 ## Run all linter checks.
 lint:
