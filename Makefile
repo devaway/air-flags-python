@@ -29,7 +29,7 @@ coverage:
 lint:
 	isort . --check
 	black . --check --line-length 79
-	flake8 . --exclude .git,__pycache__,venv
+	flake8 .
 	find air_flags -iname '*.py' | xargs mypy
 	find tests -iname '*.py' | xargs mypy
 
