@@ -5,3 +5,4 @@ isort == 5.8
 mypy == 0.812
 pytest ~= 6.2
 pytest-cov ~= 2.11
+pytest-mock == 3.6.1

@@ -1,1 +1,1 @@
-from air_flags.config import FlagsConfig  # noqa
+from air_flags.config import AirFlag  # noqa

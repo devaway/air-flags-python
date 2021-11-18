@@ -14,7 +14,7 @@ VALID_CONFIG_TYPES = [
 ]
 
 
-class FlagsConfig:
+class AirFlag:
     def __init__(
         self,
         filetype: str = "",
@@ -26,25 +26,25 @@ class FlagsConfig:
 
     def __valid_type(self, filetype: str) -> str:
         if filetype not in VALID_CONFIG_TYPES:
-            raise Exception("Meeec wrong type")
+            raise ValueError("The provided config type is not supported")
         return filetype
 
     def __valid_path(self, filepath: str) -> str:
         if not os.path.isfile(filepath):
-            raise Exception("Meeec wrong file")
+            raise ValueError("We can't find the provided config file")
         return filepath
 
     def __get_config(self) -> Mapping[Any, Any]:
         config: Mapping[Any, Any] = {}
         with open(self.path, "r") as f:
-            if self.type == "json":
+            if self.type == TYPE_JSON:
                 config = json.load(f)
 
-            if self.type == "yaml":
+            if self.type == TYPE_YAML:
                 config = yaml.load(f, Loader=yaml.SafeLoader)
 
         if not config:
-            raise Exception("Sorry we can't find any air flag")
+            raise Exception("We can't find any air flag")
 
         for flag in config.keys():
             self.__setattr__(flag, Flag(**config.get(flag, {})))
@@ -53,4 +53,4 @@ class FlagsConfig:
 
     def __getattr__(self, attr):
         if attr not in self.config:
-            raise Exception("Sorry we can't find the requested flag")
+            raise Exception("We can't find the requested flag")
