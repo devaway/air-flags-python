@@ -2,12 +2,13 @@ import json
 import os
 from typing import Any, Mapping
 
+import pathlib
 import yaml
 
 from air_flags.flag import Flag
 
-TYPE_JSON = "json"
-TYPE_YAML = "yaml"
+TYPE_JSON = ".json"
+TYPE_YAML = ".yaml"
 VALID_CONFIG_TYPES = [
     TYPE_JSON,
     TYPE_YAML,
@@ -24,10 +25,10 @@ class AirFlag:
         self.config = self.__get_config()
 
     def __valid_type(self, filepath: str) -> str:
-        ext = os.path.splitext(filepath)
-        if ext[0] not in VALID_CONFIG_TYPES:
+        ext = pathlib.Path(filepath).suffix
+        if ext not in VALID_CONFIG_TYPES:
             raise ValueError("The provided config type is not supported")
-        return ext[0]
+        return ext
 
     def __valid_path(self, filepath: str) -> str:
         if not os.path.isfile(filepath):

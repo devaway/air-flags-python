@@ -23,7 +23,7 @@ def test_config_invalid_type() -> None:
 
 def test_config_invalid_file() -> None:
     with pytest.raises(ValueError) as e:
-        AirFlag(MOCK_TYPE_JSON)
+        AirFlag(MOCK_JSON_FILE)
 
     assert str(e.value.args[0]) == "We can't find the provided config file"
 
