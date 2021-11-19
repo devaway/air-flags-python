@@ -16,9 +16,20 @@ setup(
     version=VERSION,
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
+    long_description_content_type="text/markdown",
     author="devaway",
     author_email="core@devaway.es",
     license="BSD",
     install_requires=install_requires,
     tests_require=test_requires,
+    python_requires=">=3.6",
+    url="https://github.com/devaway/air-flags-python",
+    project_urls={
+        "Bug Tracker": "https://github.com/devaway/air-flags-python/issues",
+    },
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: BSD 2",
+        "Operating System :: OS Independent",
+    ],
 )
