@@ -43,8 +43,8 @@ lint:
 	$(VENV_PATH)/bin/isort . --check
 	$(VENV_PATH)/bin/black . --check --line-length 79
 	$(VENV_PATH)/bin/flake8 .
-	find air_flags -iname '*.py' | xargs mypy
-	find tests -iname '*.py' | xargs mypy
+	find air_flags -iname '*.py' | xargs $(VENV_PATH)/bin/mypy
+	find tests -iname '*.py' | xargs $(VENV_PATH)/bin/mypy
 
 .PHONY: fmt
 ## Apply linter format.
