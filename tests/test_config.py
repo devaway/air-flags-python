@@ -4,6 +4,8 @@ import pytest
 from pytest_mock.plugin import MockerFixture
 
 from air_flags.config import AirFlag
+from air_flags.path_validator import PathValidator
+from air_flags.type_validator import TypeValidator
 from tests.mocks.config import (
     MOCK_CONFIGURATION,
     MOCK_INVALID_FILE,
@@ -44,9 +46,9 @@ def test_config_valid_type_and_file(mocker: MockerFixture) -> None:
 
 
 def test_config_get_config_empty_json(mocker: MockerFixture) -> None:
-    mock_valid_type = mocker.patch.object(AirFlag, "_AirFlag__valid_type")
+    mock_valid_type = mocker.patch.object(TypeValidator, "run")
     mock_valid_type.return_value = MOCK_TYPE_JSON
-    mock_valid_path = mocker.patch.object(AirFlag, "_AirFlag__valid_path")
+    mock_valid_path = mocker.patch.object(PathValidator, "run")
     mock_valid_path.return_value = MOCK_JSON_FILE
     mock_open_file = mocker.patch("builtins.open")
     mock_json_loads = mocker.patch("json.loads")
@@ -65,10 +67,10 @@ def test_config_get_config_empty_json(mocker: MockerFixture) -> None:
 
 
 def test_config_get_config_empty_yaml(mocker: MockerFixture) -> None:
-    mock_valid_type = mocker.patch.object(AirFlag, "_AirFlag__valid_type")
+    mock_valid_type = mocker.patch.object(TypeValidator, "run")
     mock_valid_type.return_value = MOCK_TYPE_YAML
-    mock_valid_path = mocker.patch.object(AirFlag, "_AirFlag__valid_path")
-    mock_valid_path.return_value = MOCK_YAML_FILE
+    mock_valid_path = mocker.patch.object(PathValidator, "run")
+    mock_valid_path.return_value = MOCK_JSON_FILE
     mock_open_file = mocker.patch("builtins.open")
     mock_json_loads = mocker.patch("json.loads")
     mock_yaml_load = mocker.patch("yaml.load")
@@ -86,9 +88,9 @@ def test_config_get_config_empty_yaml(mocker: MockerFixture) -> None:
 
 
 def test_config_get_config_check_attrs(mocker: MockerFixture) -> None:
-    mock_valid_type = mocker.patch.object(AirFlag, "_AirFlag__valid_type")
+    mock_valid_type = mocker.patch.object(TypeValidator, "run")
     mock_valid_type.return_value = MOCK_TYPE_JSON
-    mock_valid_path = mocker.patch.object(AirFlag, "_AirFlag__valid_path")
+    mock_valid_path = mocker.patch.object(PathValidator, "run")
     mock_valid_path.return_value = MOCK_JSON_FILE
     mock_open_file = mocker.patch("builtins.open")
     mock_json_loads = mocker.patch("json.loads")
