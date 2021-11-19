@@ -29,9 +29,13 @@ class Flag:
         return self.description
 
     def __bool__(self) -> bool:
-        if self.expiration_date and (
-            datetime.today()
-            > datetime.strptime(str(self.expiration_date), "%Y-%m-%d")
-        ):
+        if self.is_expired:
             return False
         return self.value
+
+    @property
+    def is_expired(self) -> bool:
+        return bool(self.expiration_date) and (
+            datetime.today()
+            > datetime.strptime(str(self.expiration_date), "%Y-%m-%d")
+        )
