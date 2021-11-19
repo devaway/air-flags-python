@@ -16,6 +16,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Create virtual environment
+        run: make venv
+
       - name: Install dependencies
         run: make install
 
