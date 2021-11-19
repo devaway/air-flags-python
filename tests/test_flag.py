@@ -6,25 +6,47 @@ from air_flags.flag import Flag
 
 
 @pytest.mark.parametrize(
-    "value,description,message",
+    "value,description,expiration_date,message",
     [
-        (123, "description", "Field 'value' must be of type 'bool'"),
-        ("True", "description", "Field 'value' must be of type 'bool'"),
-        ({}, "description", "Field 'value' must be of type 'bool'"),
-        ([], "description", "Field 'value' must be of type 'bool'"),
-        (True, 123, "Field 'description' must be of type 'str'"),
-        (True, True, "Field 'description' must be of type 'str'"),
-        (False, {}, "Field 'description' must be of type 'str'"),
-        (False, [], "Field 'description' must be of type 'str'"),
+        (123, "description", None, "Field 'value' must be of type 'bool'"),
+        ("True", "description", None, "Field 'value' must be of type 'bool'"),
+        ({}, "description", None, "Field 'value' must be of type 'bool'"),
+        ([], "description", None, "Field 'value' must be of type 'bool'"),
+        (True, 123, None, "Field 'description' must be of type 'str'"),
+        (True, True, None, "Field 'description' must be of type 'str'"),
+        (False, {}, None, "Field 'description' must be of type 'str'"),
+        (False, [], None, "Field 'description' must be of type 'str'"),
+        (
+            False,
+            "",
+            123,
+            "Field 'expiration_date' must be a date with the"
+            " format 'YYYY-mm-dd'",
+        ),
+        (
+            True,
+            "",
+            "11-11-2011",
+            "Field 'expiration_date' must be a date with the"
+            " format 'YYYY-mm-dd'",
+        ),
+        (
+            True,
+            "",
+            False,
+            "Field 'expiration_date' must be a date with the"
+            " format 'YYYY-mm-dd'",
+        ),
     ],
 )
 def test_flag_invalid_type_param(
-    value: Any, description: Any, message: str
+    value: Any, description: Any, expiration_date: Any, message: str
 ) -> None:
     with pytest.raises(TypeError) as e:
         Flag(
             value=value,
             description=description,
+            expiration_date=expiration_date,
         )
 
     assert str(e.value.args[0]) == message

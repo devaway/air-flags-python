@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from datetime import datetime
-from typing import Optional
+from datetime import date, datetime
+from typing import Optional, Union
 
 
 @dataclass
@@ -9,16 +9,16 @@ class Flag:
 
     value: bool
     description: str = ""
-    expiration_date: Optional[str] = None
+    expiration_date: Optional[Union[date, str]] = None
 
     def __post_init__(self):
         if type(self.value) is not bool:
             raise TypeError("Field 'value' must be of type 'bool'")
         if type(self.description) is not str:
             raise TypeError("Field 'description' must be of type 'str'")
-        if self.expiration_date:
+        if self.expiration_date is not None:
             try:
-                datetime.strptime(self.expiration_date, "%Y-%m-%d")
+                datetime.strptime(str(self.expiration_date), "%Y-%m-%d")
             except ValueError:
                 raise TypeError(
                     "Field 'expiration_date' must be a date with the"
@@ -31,7 +31,7 @@ class Flag:
     def __bool__(self) -> bool:
         if self.expiration_date and (
             datetime.today()
-            > datetime.strptime(self.expiration_date, "%Y-%m-%d")
+            > datetime.strptime(str(self.expiration_date), "%Y-%m-%d")
         ):
             return False
         return self.value
