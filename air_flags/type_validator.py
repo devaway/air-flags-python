@@ -1,9 +1,9 @@
 import pathlib
-from typing import Any, Mapping
+from typing import List
 
 
 class TypeValidator:
-    def __init__(self, types: Mapping[str, Any]):
+    def __init__(self, types: List[str]):
         self.types = types
 
     def run(self, filepath: str) -> str:
