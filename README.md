@@ -1,5 +1,7 @@
 # Python Air Flags SDK
 
+[![Run tests](https://github.com/devaway/air-flags-python/actions/workflows/tests.yml/badge.svg)](https://github.com/devaway/air-flags-python/actions/workflows/tests.yml)
+
 > Feature Toggles (often also refered to as Feature Flags) are a powerful technique, allowing teams to modify system behavior without changing code. [Pete Hodgson](https://martinfowler.com/articles/feature-toggles.html)
 
 ## Air flag definitions
