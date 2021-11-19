@@ -1,8 +1,8 @@
 import json
 import os
+import pathlib
 from typing import Any, Mapping
 
-import pathlib
 import yaml
 
 from air_flags.flag import Flag

@@ -21,9 +21,9 @@ JSON
 
 ## Usage
 ```python
-from air_flags import AirFlag
+import air_flags
 
-flags = AirFlag("/path/to/af_definition.json")
+flags = air_flags.init("/path/to/af_definition.json")
 
 
 if flags.flag_name:
