@@ -19,6 +19,26 @@ install:
 test:
 	python3 -m pytest
 
+.PHONY: coverage
+## Run the tests with coverage.
+coverage:
+	python -m pytest --cov=air_flags
+
+.PHONY: lint
+## Run all linter checks.
+lint:
+	isort . --check
+	black . --check --line-length 79
+	flake8 .
+	find air_flags -iname '*.py' | xargs mypy
+	find tests -iname '*.py' | xargs mypy
+
+.PHONY: fmt
+## Apply linter format.
+fmt:
+	isort .
+	black . --line-length 79
+
 help:
 	@echo "Thanks for your interest in Air flags!"
 	@echo
