@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Flag:
+    """Flag entity"""
     value: bool
     description: str
 
