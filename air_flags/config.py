@@ -1,5 +1,5 @@
 import json
-from typing import Any, List, Mapping
+from typing import Any, Mapping
 
 import yaml
 
