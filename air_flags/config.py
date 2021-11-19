@@ -1,11 +1,10 @@
 import json
-import os
-import pathlib
 from typing import Any, Mapping
-
 import yaml
 
 from air_flags.flag import Flag
+from air_flags.path_validator import PathValidator
+from air_flags.type_validator import TypeValidator
 
 TYPE_JSON = ".json"
 TYPE_YAML = ".yaml"
@@ -22,23 +21,12 @@ class AirFlag:
     """
 
     def __init__(
-        self,
-        filepath: str = "",
+            self,
+            filepath: str = "",
     ) -> None:
-        self.type = self.__valid_type(filepath)
-        self.path = self.__valid_path(filepath)
+        self.type = TypeValidator(VALID_CONFIG_TYPES).run(filepath)
+        self.path = PathValidator().run(filepath)
         self.config = self.__get_config()
-
-    def __valid_type(self, filepath: str) -> str:
-        ext = pathlib.Path(filepath).suffix
-        if ext not in VALID_CONFIG_TYPES:
-            raise ValueError("The provided config type is not supported")
-        return ext
-
-    def __valid_path(self, filepath: str) -> str:
-        if not os.path.isfile(filepath):
-            raise ValueError("We can't find the provided config file")
-        return filepath
 
     def __get_config(self) -> Mapping[Any, Any]:
         config: Mapping[Any, Any] = {}
