@@ -17,17 +17,17 @@ VALID_CONFIG_TYPES = [
 class AirFlag:
     def __init__(
         self,
-        filetype: str = "",
         filepath: str = "",
     ) -> None:
-        self.type = self.__valid_type(filetype)
+        self.type = self.__valid_type(filepath)
         self.path = self.__valid_path(filepath)
         self.config = self.__get_config()
 
-    def __valid_type(self, filetype: str) -> str:
-        if filetype not in VALID_CONFIG_TYPES:
+    def __valid_type(self, filepath: str) -> str:
+        ext = os.path.splitext(filepath)
+        if ext[0] not in VALID_CONFIG_TYPES:
             raise ValueError("The provided config type is not supported")
-        return filetype
+        return ext[0]
 
     def __valid_path(self, filepath: str) -> str:
         if not os.path.isfile(filepath):

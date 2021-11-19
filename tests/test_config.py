@@ -9,7 +9,6 @@ from tests.mocks.config import (
     MOCK_INVALID_FILE,
     MOCK_JSON_FILE,
     MOCK_TYPE_JSON,
-    MOCK_TYPE_XML,
     MOCK_TYPE_YAML,
     MOCK_YAML_FILE,
 )
@@ -17,33 +16,25 @@ from tests.mocks.config import (
 
 def test_config_invalid_type() -> None:
     with pytest.raises(ValueError) as e:
-        AirFlag(
-            filetype=MOCK_TYPE_XML,
-            filepath=MOCK_JSON_FILE,
-        )
+        AirFlag(MOCK_INVALID_FILE)
 
     assert str(e.value.args[0]) == "The provided config type is not supported"
 
 
 def test_config_invalid_file() -> None:
     with pytest.raises(ValueError) as e:
-        AirFlag(
-            filetype=MOCK_TYPE_YAML,
-            filepath=MOCK_INVALID_FILE,
-        )
+        AirFlag(MOCK_TYPE_JSON)
 
     assert str(e.value.args[0]) == "We can't find the provided config file"
 
 
 def test_config_valid_type_and_file(mocker: MockerFixture) -> None:
+    mock_isfile = mocker.patch("os.path.splitext", return_value=["json", ""])
     mock_isfile = mocker.patch("os.path.isfile", return_value=True)
     mock_get_config = mocker.patch.object(AirFlag, "_AirFlag__get_config")
     mock_get_config.return_value = deepcopy(MOCK_CONFIGURATION)
 
-    air_flags = AirFlag(
-        filetype=MOCK_TYPE_JSON,
-        filepath=MOCK_JSON_FILE,
-    )
+    air_flags = AirFlag(MOCK_JSON_FILE)
 
     mock_isfile.assert_called_once()
     mock_get_config.assert_called_once()
@@ -63,10 +54,7 @@ def test_config_get_config_empty_json(mocker: MockerFixture) -> None:
     mock_yaml_load = mocker.patch("yaml.load")
 
     with pytest.raises(Exception) as e:
-        AirFlag(
-            filetype=MOCK_TYPE_JSON,
-            filepath=MOCK_JSON_FILE,
-        )
+        AirFlag(MOCK_JSON_FILE)
 
     mock_valid_type.assert_called_once()
     mock_valid_path.assert_called_once()
@@ -87,10 +75,7 @@ def test_config_get_config_empty_yaml(mocker: MockerFixture) -> None:
     mock_yaml_load.return_value = {}
 
     with pytest.raises(Exception) as e:
-        AirFlag(
-            filetype=MOCK_TYPE_YAML,
-            filepath=MOCK_YAML_FILE,
-        )
+        AirFlag(MOCK_YAML_FILE)
 
     mock_valid_type.assert_called_once()
     mock_valid_path.assert_called_once()
@@ -110,10 +95,7 @@ def test_config_get_config_check_attrs(mocker: MockerFixture) -> None:
     mock_json_loads.return_value = deepcopy(MOCK_CONFIGURATION)
     mock_yaml_load = mocker.patch("yaml.load")
 
-    flags = AirFlag(
-        filetype=MOCK_TYPE_JSON,
-        filepath=MOCK_JSON_FILE,
-    )
+    flags = AirFlag(MOCK_JSON_FILE)
 
     mock_valid_type.assert_called_once()
     mock_valid_path.assert_called_once()

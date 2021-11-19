@@ -1,1 +1,31 @@
-# air-flag-python
+# Python Air Flags
+
+## Air flag definitions
+We allow 2 different type of configuration files for the Air flags definitions:
+
+YAML
+```yaml
+flag_name:
+    value: true
+    description: This an amazing Air flag
+```
+JSON
+```json
+{
+    "flag_name": {
+        "value": true,
+        "description": "This an amazing Air flag"
+    }
+}
+```
+
+## Usage
+```python
+from air_flags import AirFlag
+
+flags = AirFlag("/path/to/af_definition.json")
+
+
+if flags.flag_name:
+    print("Oh yeah!")
+```
