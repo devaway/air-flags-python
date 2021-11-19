@@ -17,7 +17,7 @@ setup(
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     author="devaway",
-    author_email="core@devaway.es",
+    author_email="airflags@devaway.es",
     license="BSD",
     install_requires=install_requires,
     tests_require=test_requires,
