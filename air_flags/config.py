@@ -1,5 +1,6 @@
 import json
 from typing import Any, Mapping
+
 import yaml
 
 from air_flags.flag import Flag
@@ -21,8 +22,8 @@ class AirFlag:
     """
 
     def __init__(
-            self,
-            filepath: str = "",
+        self,
+        filepath: str = "",
     ) -> None:
         self.type = TypeValidator(VALID_CONFIG_TYPES).run(filepath)
         self.path = PathValidator().run(filepath)
