@@ -150,12 +150,8 @@ def test_config_is_active_ko(mocker: MockerFixture) -> None:
 
 
 def test_config_is_active_ok(mocker: MockerFixture) -> None:
-    mocker.patch.object(
-        AirFlag, "_AirFlag__valid_type"
-    ).return_value = MOCK_TYPE_JSON
-    mocker.patch.object(
-        AirFlag, "_AirFlag__valid_path"
-    ).return_value = MOCK_JSON_FILE
+    mocker.patch.object(TypeValidator, "run").return_value = MOCK_TYPE_JSON
+    mocker.patch.object(PathValidator, "run").return_value = MOCK_JSON_FILE
     mocker.patch("builtins.open")
     mocker.patch("json.loads").return_value = deepcopy(MOCK_CONFIGURATION)
 

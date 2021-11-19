@@ -1,6 +1,6 @@
 import json
 from functools import wraps
-from typing import Any, Callable, List, Mapping
+from typing import Any, Callable, List, Mapping, Optional
 
 import yaml
 
@@ -56,9 +56,9 @@ class AirFlag:
 
         def _is_active_flag(func: Callable) -> Callable:
             @wraps(func)
-            def wrapped(*args: List, **kwargs: Mapping) -> Callable:
+            def wrapped(*args: List, **kwargs: Mapping) -> Optional[Callable]:
                 if not getattr(self, flag):
-                    raise Exception("We can't find the requested flag")
+                    return None
                 return func(*args, **kwargs)
 
             return wrapped
