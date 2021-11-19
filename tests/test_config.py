@@ -3,6 +3,7 @@ from copy import deepcopy
 import pytest
 from pytest_mock.plugin import MockerFixture
 
+import air_flags
 from air_flags.config import AirFlag
 from tests.mocks.config import (
     MOCK_CONFIGURATION,
@@ -34,13 +35,13 @@ def test_config_valid_type_and_file(mocker: MockerFixture) -> None:
     mock_get_config = mocker.patch.object(AirFlag, "_AirFlag__get_config")
     mock_get_config.return_value = deepcopy(MOCK_CONFIGURATION)
 
-    air_flags = AirFlag(MOCK_JSON_FILE)
+    flags = AirFlag(MOCK_JSON_FILE)
 
     mock_isfile.assert_called_once()
     mock_get_config.assert_called_once()
-    assert air_flags.type == MOCK_TYPE_JSON
-    assert air_flags.path == MOCK_JSON_FILE
-    assert air_flags.config == MOCK_CONFIGURATION
+    assert flags.type == MOCK_TYPE_JSON
+    assert flags.path == MOCK_JSON_FILE
+    assert flags.config == MOCK_CONFIGURATION
 
 
 def test_config_get_config_empty_json(mocker: MockerFixture) -> None:
@@ -111,3 +112,55 @@ def test_config_get_config_check_attrs(mocker: MockerFixture) -> None:
         getattr(flags, "invalidAF")
 
     assert str(e.value.args[0]) == "We can't find the requested flag"
+
+
+def test_config_init(mocker: MockerFixture) -> None:
+    mock_isfile = mocker.patch("os.path.splitext", return_value=["json", ""])
+    mock_isfile = mocker.patch("os.path.isfile", return_value=True)
+    mock_get_config = mocker.patch.object(AirFlag, "_AirFlag__get_config")
+    mock_get_config.return_value = deepcopy(MOCK_CONFIGURATION)
+
+    flags = air_flags.init(MOCK_JSON_FILE)
+
+    mock_isfile.assert_called_once()
+    mock_get_config.assert_called_once()
+    assert flags.type == MOCK_TYPE_JSON
+    assert flags.path == MOCK_JSON_FILE
+    assert flags.config == MOCK_CONFIGURATION
+
+
+def test_config_is_active_ko(mocker: MockerFixture) -> None:
+    mocker.patch("os.path.splitext", return_value=["json", ""])
+    mocker.patch("os.path.isfile", return_value=True)
+    mock_get_config = mocker.patch.object(AirFlag, "_AirFlag__get_config")
+    mock_get_config.return_value = deepcopy(MOCK_CONFIGURATION)
+
+    flags = air_flags.init(MOCK_JSON_FILE)
+
+    @flags.is_active("invalidFlag")
+    def mock_func():
+        pass
+
+    with pytest.raises(Exception) as e:
+        mock_func()
+
+    assert str(e.value.args[0]) == "We can't find the requested flag"
+
+
+def test_config_is_active_ok(mocker: MockerFixture) -> None:
+    mocker.patch.object(
+        AirFlag, "_AirFlag__valid_type"
+    ).return_value = MOCK_TYPE_JSON
+    mocker.patch.object(
+        AirFlag, "_AirFlag__valid_path"
+    ).return_value = MOCK_JSON_FILE
+    mocker.patch("builtins.open")
+    mocker.patch("json.loads").return_value = deepcopy(MOCK_CONFIGURATION)
+
+    flags = AirFlag(MOCK_JSON_FILE)
+
+    @flags.is_active("myAF")
+    def mock_func():
+        pass
+
+    assert mock_func() is None
