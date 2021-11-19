@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 .DEFAULT_GOAL := help
-VENV_PATH = venv
+VENV_PATH := venv
 
 # Colors
 GREEN  := $(shell tput -Txterm setaf 2)
