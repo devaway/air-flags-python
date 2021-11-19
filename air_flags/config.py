@@ -20,6 +20,7 @@ class AirFlag:
     Load configuration from json and yaml files
     and set the flags entity as class attrs
     """
+
     def __init__(
         self,
         filepath: str = "",
