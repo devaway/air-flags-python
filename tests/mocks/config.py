@@ -8,6 +8,6 @@ MOCK_CONFIGURATION = {
     "myAF": {
         "value": True,
         "description": "This is my first Air Flag",
-        "expiration_date": "2121-10-10",
+        "expiration_date": "2022-01-01",
     }
 }

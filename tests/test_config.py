@@ -88,6 +88,7 @@ def test_config_get_config_empty_yaml(mocker: MockerFixture) -> None:
     assert str(e.value.args[0]) == "We can't find any air flag"
 
 
+@pytest.mark.freeze_time("2021-11-19")
 def test_config_get_config_check_attrs(mocker: MockerFixture) -> None:
     mock_valid_type = mocker.patch.object(TypeValidator, "run")
     mock_valid_type.return_value = MOCK_TYPE_JSON
@@ -131,7 +132,7 @@ def test_config_init(mocker: MockerFixture) -> None:
     assert flags.config == MOCK_CONFIGURATION
 
 
-def test_config_is_active_ko(mocker: MockerFixture) -> None:
+def test_config_is_active_non_existing_flag(mocker: MockerFixture) -> None:
     mocker.patch("os.path.splitext", return_value=["json", ""])
     mocker.patch("os.path.isfile", return_value=True)
     mock_get_config = mocker.patch.object(AirFlag, "_AirFlag__get_config")
@@ -149,7 +150,8 @@ def test_config_is_active_ko(mocker: MockerFixture) -> None:
     assert str(e.value.args[0]) == "We can't find the requested flag"
 
 
-def test_config_is_active_ok(mocker: MockerFixture) -> None:
+@pytest.mark.freeze_time("2021-11-19")
+def test_config_is_active_actived_flag(mocker: MockerFixture) -> None:
     mocker.patch.object(TypeValidator, "run").return_value = MOCK_TYPE_JSON
     mocker.patch.object(PathValidator, "run").return_value = MOCK_JSON_FILE
     mocker.patch("builtins.open")
@@ -159,6 +161,22 @@ def test_config_is_active_ok(mocker: MockerFixture) -> None:
 
     @flags.is_active("myAF")
     def mock_func():
-        pass
+        return "ok"
 
-    assert mock_func() is None
+    assert mock_func() == "ok"
+
+
+@pytest.mark.freeze_time("2023-11-19")
+def test_config_is_active_expired_flag(mocker: MockerFixture) -> None:
+    mocker.patch.object(TypeValidator, "run").return_value = MOCK_TYPE_JSON
+    mocker.patch.object(PathValidator, "run").return_value = MOCK_JSON_FILE
+    mocker.patch("builtins.open")
+    mocker.patch("json.loads").return_value = deepcopy(MOCK_CONFIGURATION)
+
+    flags = AirFlag(MOCK_JSON_FILE)
+
+    @flags.is_active("myAF")
+    def mock_func():
+        return "ok"
+
+    assert not mock_func()

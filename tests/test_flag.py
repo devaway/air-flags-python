@@ -52,10 +52,11 @@ def test_flag_invalid_type_param(
     assert str(e.value.args[0]) == message
 
 
+@pytest.mark.freeze_time("2021-11-19")
 @pytest.mark.parametrize(
     "expiration_date,expected",
     [
-        ("2121-01-01", False),
+        ("2022-01-01", False),
         ("2000-01-01", True),
     ],
 )
@@ -68,11 +69,12 @@ def test_flag_is_expired(expiration_date: str, expected: bool) -> None:
     assert flag.is_expired == expected
 
 
+@pytest.mark.freeze_time("2021-11-19")
 @pytest.mark.parametrize(
     "value,description,expiration_date",
     [
         (True, "New description", None),
-        (True, "Other description", "2121-01-01"),
+        (True, "Other description", "2022-01-01"),
     ],
 )
 def test_flag_true(
@@ -88,11 +90,12 @@ def test_flag_true(
     assert bool(flag)
 
 
+@pytest.mark.freeze_time("2021-11-19")
 @pytest.mark.parametrize(
     "value,description,expiration_date",
     [
         (False, "New description", None),
-        (False, "Other description", "2121-01-01"),
+        (False, "Other description", "2022-01-01"),
         (True, "Other description", "2000-01-01"),
     ],
 )
