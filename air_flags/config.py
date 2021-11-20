@@ -1,5 +1,6 @@
 import json
-from typing import Any, Mapping
+from functools import wraps
+from typing import Any, Callable, List, Mapping, Optional
 
 import yaml
 
@@ -46,6 +47,20 @@ class AirFlag:
 
         return config
 
-    def __getattr__(self, attr):
+    def __getattr__(self, attr) -> None:
         if attr not in self.config:
             raise Exception("We can't find the requested flag")
+
+    def is_active(self, flag: str) -> Callable:
+        """Air flag decorator to validate if a flag is actived"""
+
+        def _is_active_flag(func: Callable) -> Callable:
+            @wraps(func)
+            def wrapped(*args: List, **kwargs: Mapping) -> Optional[Callable]:
+                if not getattr(self, flag):
+                    return None
+                return func(*args, **kwargs)
+
+            return wrapped
+
+        return _is_active_flag

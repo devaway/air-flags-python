@@ -35,7 +35,7 @@ test:
 .PHONY: coverage
 ## Run the tests with coverage.
 coverage:
-	$(VENV_PATH)/bin/python -m pytest --cov=air_flags
+	$(VENV_PATH)/bin/python -m pytest --cov=air_flags --cov-report term-missing
 
 .PHONY: lint
 ## Run all linter checks.
