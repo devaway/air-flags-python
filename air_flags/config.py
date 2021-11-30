@@ -2,8 +2,8 @@ import json
 from functools import wraps
 from typing import Any, Callable, List, Mapping, Optional
 
-import yaml
 import jsonschema  # type: ignore
+import yaml
 
 from air_flags.flag import Flag
 from air_flags.rollout import Rollout
@@ -44,7 +44,9 @@ class AirFlag:
             raise Exception("We can't find any air flag")
 
         for flag in config.keys():
-            jsonschema.validate(instance=config.get(flag), schema=SCHEMA_VALIDATOR)
+            jsonschema.validate(
+                instance=config.get(flag), schema=SCHEMA_VALIDATOR
+            )
             if config.get(flag, {}).get("rollout"):
                 config[flag]["rollout"] = Rollout(**config[flag]["rollout"])
             self.__setattr__(flag, Flag(**config.get(flag, {})))
