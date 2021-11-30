@@ -12,26 +12,58 @@ YAML
 ```yaml
 flag_name:
     value: true
-    description: This an amazing Air flag
-    expiration_date: 2021-11-19
+    description: This an amazing Air flag with scheduled rollout
+    rollout:
+        strategy: scheduled
+        percentage: 50
+        start_date: 2021-11-01
+        end_date: 2021-12-01
+other_flag:
+    value: true
+    description: This is an actived flag
 ```
 JSON
 ```json
 {
     "flag_name": {
         "value": true,
-        "description": "This an amazing Air flag",
-        "expiration_date": "2021-11-19"
+        "description": "This is an amazing Air flag with progressive rollout",
+        "rollout": {
+            "strategy": "progressive",
+            "percentage": 5,
+            "start_date": "2021-11-01",
+            "end_date": "2021-12-01"
+        }
+    },
+    "other_flag": {
+        "value": true,
+        "description": "This is other flag with a static rollout percentage",
+        "rollout": {
+            "strategy": "canary",
+            "percentage": 50
+        }
+    },
+    "other_one": {
+        "value": false,
+        "description": "This is an inactived flag"
     }
 }
 ```
-
+Flag:
 | Field | Context | Type | Required |
 | ----------- | ----------- | ----------- | ----------- |
 | flag_name | The flag_name is the name of the flag | str | Yes |
 | value | Status of the flag | bool | Yes |
 | description | Short description of the flag | str | No |
-| expiration_date | Expiration date of the flag with format 'YYYY-mm-dd' | date / str | No |
+| rollout | Custom object to set up  | object | No |
+
+Rollout:
+| Field | Context | Type | Required |
+| ----------- | ----------- | ----------- | ----------- |
+| strategy | Status of the flag | bool | Yes |
+| percentage | Percent of traffic to roll the feature out [0 : 100] 'only applies to active flags' | int | No |
+| start_date | Start date of the flag with format 'YYYY-mm-dd' | date / str | No |
+| end_date | Expiration date of the flag with format 'YYYY-mm-dd' | date / str | No |
 
 ## Usage
 
@@ -49,6 +81,14 @@ if flags.flag_name:
 def order_beer():
     pass
 ```
+
+## Best practices
+Increased technical debt is a common objection to implementing feature flags.
+* Standardize naming:
+  * Naming your flags to be as much descriptive as possible.
+  * Use prefixes to categorize / group them.
+  * Include a description with expected the behavior.
+* Using `rollout` can generate different value outputs, be careful re-using the same flag in different parts of your application.
 
 ## Contributing to the SDK
 
