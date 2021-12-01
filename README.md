@@ -12,7 +12,6 @@ YAML
 ```yaml
 flag_name:
     value: true
-<<<<<<< HEAD
     description: This an amazing Air flag with scheduled rollout
     rollout:
         strategy: scheduled
@@ -22,17 +21,12 @@ flag_name:
 other_flag:
     value: true
     description: This is an actived flag
-=======
-    description: This an amazing Air flag
-    expiration_date: 2021-11-19
->>>>>>> origin/main
 ```
 JSON
 ```json
 {
     "flag_name": {
         "value": true,
-<<<<<<< HEAD
         "description": "This is an amazing Air flag with progressive rollout",
         "rollout": {
             "strategy": "progressive",
@@ -52,10 +46,6 @@ JSON
     "other_one": {
         "value": false,
         "description": "This is an inactived flag"
-=======
-        "description": "This an amazing Air flag",
-        "expiration_date": "2021-11-19"
->>>>>>> origin/main
     }
 }
 ```
