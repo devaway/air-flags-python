@@ -55,15 +55,31 @@ Flag:
 | flag_name | The flag_name is the name of the flag | str | Yes |
 | value | Status of the flag | bool | Yes |
 | description | Short description of the flag | str | No |
-| rollout | Custom object to set up  | object | No |
+| rollout | Custom object to set up | object | No |
 
-Rollout:
+Canary rollout:
 | Field | Context | Type | Required |
 | ----------- | ----------- | ----------- | ----------- |
-| strategy | Status of the flag | bool | Yes |
-| percentage | Percent of traffic to roll the feature out [0 : 100] 'only applies to active flags' | int | No |
+| strategy | Rollout strategy 'canary' | str | Yes |
+| percentage | Percent of traffic to roll the feature out [0 : 100] 'only applies to active flags' | int | Yes |
 | start_date | Start date of the flag with format 'YYYY-mm-dd' | date / str | No |
 | end_date | Expiration date of the flag with format 'YYYY-mm-dd' | date / str | No |
+
+Scheduled rollout:
+| Field | Context | Type | Required |
+| ----------- | ----------- | ----------- | ----------- |
+| strategy | Rollout strategy 'scheduled' | str | Yes |
+| percentage | Percent of traffic to roll the feature out [0 : 100] 'only applies to active flags' | int | No |
+| start_date | Start date of the flag with format 'YYYY-mm-dd' | date / str | Yes |
+| end_date | Expiration date of the flag with format 'YYYY-mm-dd' | date / str | Yes |
+
+Progressive rollout:
+| Field | Context | Type | Required |
+| ----------- | ----------- | ----------- | ----------- |
+| strategy | Rollout strategy 'progressive' | str | Yes |
+| percentage | Percent of traffic to start the rollout, it will increase progressively until 100 at end_date | int | Yes |
+| start_date | Start date of the flag with format 'YYYY-mm-dd' | date / str | Yes |
+| end_date | Expiration date of the flag with format 'YYYY-mm-dd' | date / str | Yes |
 
 ## Usage
 
