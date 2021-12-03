@@ -18,17 +18,17 @@ from tests.mocks.rollout import MOCK_CANARY, MOCK_PROGRESSIVE, MOCK_SCHEDULED
         ),
         (
             MOCK_CANARY,
-            0,
+            -1,
             None,
             None,
-            "Field 'percentage' must be between 1 and 100",
+            "Field 'percentage' must be between 0 and 100",
         ),
         (
             MOCK_CANARY,
             105,
             None,
             None,
-            "Field 'percentage' must be between 1 and 100",
+            "Field 'percentage' must be between 0 and 100",
         ),
         (
             MOCK_SCHEDULED,

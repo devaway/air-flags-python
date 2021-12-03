@@ -13,7 +13,7 @@ ROLLOUT_STRATEGIES = [
     SCHEDULED_STRATEGY,
     PROGRESSIVE_STRATEGY,
 ]
-MIN_PERCENTAGE = 1
+MIN_PERCENTAGE = 0
 MAX_PERCENTAGE = 100
 
 
@@ -32,7 +32,7 @@ class Rollout:
         if self.percentage is not None and self.percentage not in range(
             MIN_PERCENTAGE, MAX_PERCENTAGE + 1
         ):
-            raise ValueError("Field 'percentage' must be between 1 and 100")
+            raise ValueError("Field 'percentage' must be between 0 and 100")
         if self.start_date:
             try:
                 datetime.strptime(str(self.start_date), DATE_FORMAT)
