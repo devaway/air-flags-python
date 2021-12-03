@@ -5,9 +5,9 @@ from pytest_mock.plugin import MockerFixture
 
 import air_flags
 from air_flags.config import AirFlag
-from air_flags.path_validator import PathValidator
-from air_flags.type_validator import TypeValidator
+from air_flags.validators import PathValidator, TypeValidator
 from tests.mocks.config import (
+    MOCK_CONFIG_SCHEDULED_ROLLOUT_EXPIRED,
     MOCK_CONFIGURATION,
     MOCK_INVALID_FILE,
     MOCK_JSON_FILE,
@@ -98,9 +98,11 @@ def test_config_get_config_check_attrs(mocker: MockerFixture) -> None:
     mock_json_loads = mocker.patch("json.loads")
     mock_json_loads.return_value = deepcopy(MOCK_CONFIGURATION)
     mock_yaml_load = mocker.patch("yaml.load")
+    mock_val_schema = mocker.patch("jsonschema.validate", return_value=None)
 
     flags = AirFlag(MOCK_JSON_FILE)
 
+    mock_val_schema.assert_called_once()
     mock_valid_type.assert_called_once()
     mock_valid_path.assert_called_once()
     mock_open_file.assert_called_once()
@@ -156,6 +158,7 @@ def test_config_is_active_actived_flag(mocker: MockerFixture) -> None:
     mocker.patch.object(PathValidator, "run").return_value = MOCK_JSON_FILE
     mocker.patch("builtins.open")
     mocker.patch("json.loads").return_value = deepcopy(MOCK_CONFIGURATION)
+    mocker.patch("jsonschema.validate", return_value=None)
 
     flags = AirFlag(MOCK_JSON_FILE)
 
@@ -166,16 +169,19 @@ def test_config_is_active_actived_flag(mocker: MockerFixture) -> None:
     assert mock_func() == "ok"
 
 
-@pytest.mark.freeze_time("2023-11-19")
+@pytest.mark.freeze_time("2021-11-19")
 def test_config_is_active_expired_flag(mocker: MockerFixture) -> None:
     mocker.patch.object(TypeValidator, "run").return_value = MOCK_TYPE_JSON
     mocker.patch.object(PathValidator, "run").return_value = MOCK_JSON_FILE
     mocker.patch("builtins.open")
-    mocker.patch("json.loads").return_value = deepcopy(MOCK_CONFIGURATION)
+    mocker.patch("json.loads").return_value = deepcopy(
+        MOCK_CONFIG_SCHEDULED_ROLLOUT_EXPIRED
+    )
+    mocker.patch("jsonschema.validate", return_value=None)
 
     flags = AirFlag(MOCK_JSON_FILE)
 
-    @flags.is_active("myAF")
+    @flags.is_active("otherAF")
     def mock_func():
         return "ok"
 

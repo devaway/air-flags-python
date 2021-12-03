@@ -8,6 +8,47 @@ MOCK_CONFIGURATION = {
     "myAF": {
         "value": True,
         "description": "This is my first Air Flag",
-        "expiration_date": "2022-01-01",
+    }
+}
+
+MOCK_CONFIG_CANARY_ROLLOUT = {
+    "otherAF": {
+        "value": True,
+        "description": "This is other Air Flag",
+        "rollout": {"strategy": "canary", "percentage": 80},
+    }
+}
+
+MOCK_CONFIG_SCHEDULED_ROLLOUT = {
+    "otherAF": {
+        "value": True,
+        "description": "This is other Air Flag",
+        "rollout": {
+            "strategy": "scheduled",
+            "percentage": 80,
+            "start_date": "2021-10-01",
+            "end_date": "2021-12-01",
+        },
+    }
+}
+
+MOCK_CONFIG_SCHEDULED_ROLLOUT_EXPIRED = {
+    "otherAF": {
+        "value": True,
+        "description": "This is other Air Flag",
+        "rollout": {
+            "strategy": "scheduled",
+            "percentage": 80,
+            "start_date": "2020-10-01",
+            "end_date": "2020-12-01",
+        },
+    }
+}
+
+MOCK_CONFIG_PROGRESSIVE_ROLLOUT = {
+    "otherAF": {
+        "value": True,
+        "description": "This is other Air Flag",
+        "rollout": {"strategy": "default", "percentage": 80},
     }
 }
