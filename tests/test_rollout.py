@@ -145,39 +145,6 @@ def test_rollout_progressive_without_percentage() -> None:
     )
 
 
-@pytest.mark.freeze_time("2021-11-01")
-def test_rollout_progressive_calc_percent(freezer) -> None:
-    rollout = Rollout(
-        strategy=MOCK_PROGRESSIVE,
-        percentage=10,
-        start_date="2021-11-01",
-        end_date="2021-11-10",
-    )
-
-    assert (
-        rollout._calc_progressive_percentage(10, "2021-11-01", "2021-11-10")
-        == 10
-    )
-
-    freezer.move_to("2021-11-03")
-    assert (
-        rollout._calc_progressive_percentage(10, "2021-11-01", "2021-11-10")
-        == 30
-    )
-
-    freezer.move_to("2021-11-06")
-    assert (
-        rollout._calc_progressive_percentage(10, "2021-11-01", "2021-11-10")
-        == 60
-    )
-
-    freezer.move_to("2021-11-10")
-    assert (
-        rollout._calc_progressive_percentage(10, "2021-11-01", "2021-11-10")
-        == 100
-    )
-
-
 @pytest.mark.freeze_time("2021-11-10")
 def test_rollout_progressive_at_end_date() -> None:
     rollout = Rollout(

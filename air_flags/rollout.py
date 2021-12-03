@@ -1,7 +1,8 @@
-import random
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
+
+from air_flags.utils import calc_progressive_percentage, generate_random_value
 
 ROLLOUT_VALUES = [True, False]
 DATE_FORMAT = "%Y-%m-%d"
@@ -68,7 +69,9 @@ class Rollout:
                 "Field 'percentage' is required for Canary rollout"
             )
 
-        return self._random_value(self.percentage)
+        return generate_random_value(
+            ROLLOUT_VALUES, self.percentage, MAX_PERCENTAGE
+        )
 
     def _gen_scheduled_value(self) -> bool:
         if not self.start_date or not self.end_date:
@@ -79,20 +82,9 @@ class Rollout:
         if not self.percentage:
             return True
 
-        return self._random_value(self.percentage)
-
-    def _calc_progressive_percentage(
-        self, percentage: int, start_date: str, end_date: str
-    ) -> int:
-        period = datetime.strptime(end_date, DATE_FORMAT) - datetime.strptime(
-            start_date, DATE_FORMAT
+        return generate_random_value(
+            ROLLOUT_VALUES, self.percentage, MAX_PERCENTAGE
         )
-        multiplier = (MAX_PERCENTAGE - percentage) / period.days
-        now = datetime.today() - datetime.strptime(start_date, DATE_FORMAT)
-        increment = multiplier * now.days
-        progressive_percentage = percentage + increment
-
-        return int(progressive_percentage)
 
     def _gen_progressive_value(self) -> bool:
         if not self.start_date or not self.end_date:
@@ -105,18 +97,17 @@ class Rollout:
                 "Field 'percentage' is required for Progressive rollout"
             )
 
-        progressive_percentage = self._calc_progressive_percentage(
+        progressive_percentage = calc_progressive_percentage(
             self.percentage,
             self.start_date,
             self.end_date,
+            MAX_PERCENTAGE,
+            DATE_FORMAT,
         )
 
-        return self._random_value(progressive_percentage)
-
-    def _random_value(self, percentage) -> bool:
-        return random.choices(
-            ROLLOUT_VALUES, [percentage, MAX_PERCENTAGE - percentage]
-        )[0]
+        return generate_random_value(
+            ROLLOUT_VALUES, progressive_percentage, MAX_PERCENTAGE
+        )
 
     def _is_on_date(self) -> bool:
         if self.start_date and self.end_date:
