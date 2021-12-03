@@ -56,9 +56,9 @@ class Rollout:
             return False
         if self.strategy == CANARY_STRATEGY:
             return self._gen_canary_value()
-        elif self.strategy == SCHEDULED_STRATEGY:
+        if self.strategy == SCHEDULED_STRATEGY:
             return self._gen_scheduled_value()
-        elif self.strategy == PROGRESSIVE_STRATEGY:
+        if self.strategy == PROGRESSIVE_STRATEGY:
             return self._gen_progressive_value()
         return False
 
