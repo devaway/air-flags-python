@@ -81,13 +81,6 @@ Progressive rollout:
 | start_date | Start date of the flag with format 'YYYY-mm-dd' | date / str | Yes |
 | end_date | Expiration date of the flag with format 'YYYY-mm-dd' | date / str | Yes |
 
-| Field | Context | Type | Required |
-| ----------- | ----------- | ----------- | ----------- |
-| flag_name | The flag_name is the name of the flag | str | Yes |
-| value | Status of the flag | bool | Yes |
-| description | Short description of the flag | str | No |
-| expiration_date | Expiration date of the flag with format 'YYYY-mm-dd' | date / str | No |
-
 ## Usage
 
 ```python

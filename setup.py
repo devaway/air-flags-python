@@ -1,14 +1,9 @@
+from pkg_resources import parse_requirements
 from setuptools import find_packages, setup
 
-VERSION = "0.0.1"
+VERSION = "0.1.0"
 DESCRIPTION = "Air flags python library"
 LONG_DESCRIPTION = "Air flags library to manage Python feature flags"
-
-with open("requirements.txt") as f:
-    install_requires = f.read().splitlines()
-
-with open("requirements-test.txt") as f:
-    test_requires = f.read().splitlines()
 
 setup(
     name="airflags",
@@ -20,8 +15,14 @@ setup(
     author="devaway",
     author_email="airflags@devaway.es",
     license="BSD",
-    install_requires=install_requires,
-    tests_require=test_requires,
+    install_requires=[
+        str(requirement)
+        for requirement in parse_requirements("requirements.txt")
+    ],
+    tests_require=[
+        str(test_requirement)
+        for test_requirement in parse_requirements("requirements-test.txt")
+    ],
     python_requires=">=3.6",
     url="https://github.com/devaway/air-flags-python",
     project_urls={
@@ -29,7 +30,7 @@ setup(
     },
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: BSD 2",
+        "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
     ],
 )
