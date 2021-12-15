@@ -1,5 +1,5 @@
-from setuptools import find_packages, setup
 from pkg_resources import parse_requirements
+from setuptools import find_packages, setup
 
 VERSION = "0.1.0"
 DESCRIPTION = "Air flags python library"
@@ -17,13 +17,11 @@ setup(
     license="BSD",
     install_requires=[
         str(requirement)
-        for requirement
-        in parse_requirements("requirements.txt")
+        for requirement in parse_requirements("requirements.txt")
     ],
     tests_require=[
         str(test_requirement)
-        for test_requirement
-        in parse_requirements("requirements-test.txt")
+        for test_requirement in parse_requirements("requirements-test.txt")
     ],
     python_requires=">=3.6",
     url="https://github.com/devaway/air-flags-python",
