@@ -18,7 +18,7 @@ venv:
 .PHONY: install
 ## Run the package installation for development.
 install:
-	$(VENV_PATH)/bin/pip install -r requirements.txt
+	$(VENV_PATH)/bin/pip install -e .
 	$(VENV_PATH)/bin/pip install -r requirements-test.txt
 
 .PHONY: dist
