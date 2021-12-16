@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-VERSION = "0.1.3"
+VERSION = "0.1.4"
 DESCRIPTION = "Air flags python library"
 LONG_DESCRIPTION = "Air flags library to manage Python feature flags"
 
@@ -18,7 +18,7 @@ setup(
         "pyyaml==6.0",
         "jsonschema==4.2.1"
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.4",
     url="https://github.com/devaway/air-flags-python",
     project_urls={
         "Bug Tracker": "https://github.com/devaway/air-flags-python/issues",
