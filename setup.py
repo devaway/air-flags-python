@@ -14,10 +14,7 @@ setup(
     author="devaway",
     author_email="airflags@devaway.es",
     license="BSD",
-    install_requires=[
-        "pyyaml==6.0",
-        "jsonschema==4.2.1"
-    ],
+    install_requires=["pyyaml==6.0", "jsonschema==4.2.1"],
     python_requires=">=3.4",
     url="https://github.com/devaway/air-flags-python",
     project_urls={
