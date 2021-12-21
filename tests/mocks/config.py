@@ -57,7 +57,7 @@ MOCK_CONFIG_SELECTIVE_TRUE = {
     "otherAF": {
         "value": True,
         "description": "This is other Air Flag",
-        "selective": "abcd-1234",
+        "selectived": "abcd-1234",
     }
 }
 
@@ -65,6 +65,6 @@ MOCK_CONFIG_SELECTIVE_FALSE = {
     "otherAF": {
         "value": False,
         "description": "This is other Air Flag",
-        "selective": "abcd-1234",
+        "selectived": "abcd-1234",
     }
 }

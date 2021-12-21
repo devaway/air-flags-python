@@ -33,13 +33,13 @@ def test_flag_with_description() -> None:
         (True, None, "1234", True),
     ],
 )
-def test_flag_with_selective(
+def test_flag_with_selectived(
     val: bool, sel: Any, selected: str, expected: bool
 ) -> None:
     flag = Flag(
         value=val,
         description="This is an amazing flag",
-        selective=sel,
+        selectived=sel,
     )
 
     assert str(flag) == "This is an amazing flag"

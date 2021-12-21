@@ -10,7 +10,7 @@ class Flag:
 
     value: bool
     description: str = ""
-    selective: Optional[Union[str, List]] = None
+    selectived: Optional[Union[str, List]] = None
     rollout: Optional[Rollout] = None
 
     def __str__(self) -> str:
@@ -22,11 +22,17 @@ class Flag:
         return self.value
 
     def __call__(self, selected: str) -> bool:
-        if self.selective:
-            if isinstance(self.selective, str) and selected == self.selective:
+        if self.selectived:
+            if (
+                isinstance(self.selectived, str)
+                and selected == self.selectived
+            ):
                 return True
 
-            if isinstance(self.selective, list) and selected in self.selective:
+            if (
+                isinstance(self.selectived, list)
+                and selected in self.selectived
+            ):
                 return True
 
         return bool(self)
