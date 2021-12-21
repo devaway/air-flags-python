@@ -21,11 +21,12 @@ class Flag:
             return self.rollout.value
         return self.value
 
-    def __call__(self, selected) -> bool:
-        if not self:
-            return False
+    def __call__(self, selected: str) -> bool:
+        if self.selective:
+            if isinstance(self.selective, str) and selected == self.selective:
+                return True
 
-        if not self.selective or selected != self.selective:
-            return False
+            if isinstance(self.selective, list) and selected in self.selective:
+                return True
 
-        return True
+        return bool(self)

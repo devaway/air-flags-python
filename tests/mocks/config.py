@@ -53,10 +53,18 @@ MOCK_CONFIG_PROGRESSIVE_ROLLOUT = {
     }
 }
 
-MOCK_CONFIG_SELECTIVE = {
+MOCK_CONFIG_SELECTIVE_TRUE = {
     "otherAF": {
         "value": True,
         "description": "This is other Air Flag",
-        "selective": "abcd-1234"
+        "selective": "abcd-1234",
+    }
+}
+
+MOCK_CONFIG_SELECTIVE_FALSE = {
+    "otherAF": {
+        "value": False,
+        "description": "This is other Air Flag",
+        "selective": "abcd-1234",
     }
 }
