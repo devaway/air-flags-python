@@ -52,3 +52,11 @@ MOCK_CONFIG_PROGRESSIVE_ROLLOUT = {
         "rollout": {"strategy": "default", "percentage": 80},
     }
 }
+
+MOCK_CONFIG_SELECTIVE = {
+    "otherAF": {
+        "value": True,
+        "description": "This is other Air Flag",
+        "selective": "abcd-1234"
+    }
+}

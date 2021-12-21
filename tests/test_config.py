@@ -7,6 +7,7 @@ import air_flags
 from air_flags.config import AirFlag
 from air_flags.validators import PathValidator, TypeValidator
 from tests.mocks.config import (
+    MOCK_CONFIG_SELECTIVE,
     MOCK_CONFIG_SCHEDULED_ROLLOUT_EXPIRED,
     MOCK_CONFIGURATION,
     MOCK_INVALID_FILE,
@@ -182,6 +183,38 @@ def test_config_is_active_expired_flag(mocker: MockerFixture) -> None:
     flags = AirFlag(MOCK_JSON_FILE)
 
     @flags.is_active("otherAF")
+    def mock_func():
+        return "ok"
+
+    assert not mock_func()
+
+
+def test_config_is_active_selective_flag(mocker: MockerFixture) -> None:
+    mocker.patch.object(TypeValidator, "run").return_value = MOCK_TYPE_JSON
+    mocker.patch.object(PathValidator, "run").return_value = MOCK_JSON_FILE
+    mocker.patch("builtins.open")
+    mocker.patch("json.loads").return_value = deepcopy(MOCK_CONFIG_SELECTIVE)
+    mocker.patch("jsonschema.validate", return_value=None)
+
+    flags = AirFlag(MOCK_JSON_FILE)
+
+    @flags.is_active("otherAF", "abcd-1234")
+    def mock_func():
+        return "ok"
+
+    assert mock_func() == "ok"
+
+
+def test_config_is_active_not_selective_flag(mocker: MockerFixture) -> None:
+    mocker.patch.object(TypeValidator, "run").return_value = MOCK_TYPE_JSON
+    mocker.patch.object(PathValidator, "run").return_value = MOCK_JSON_FILE
+    mocker.patch("builtins.open")
+    mocker.patch("json.loads").return_value = deepcopy(MOCK_CONFIG_SELECTIVE)
+    mocker.patch("jsonschema.validate", return_value=None)
+
+    flags = AirFlag(MOCK_JSON_FILE)
+
+    @flags.is_active("otherAF", "invalid")
     def mock_func():
         return "ok"
 
