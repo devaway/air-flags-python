@@ -114,7 +114,7 @@ def order_beer():
     pass
 ```
 
-## Best practices anc considerations
+## Best practices and considerations
 Increased technical debt is a common objection to implementing feature flags.
 * Standardize naming:
   * Naming your flags to be as much descriptive as possible.
