@@ -57,7 +57,7 @@ class AirFlag:
         if attr not in self.config:
             raise Exception("We can't find the requested flag")
 
-    def is_active(self, flag: str) -> Callable:
+    def is_active(self, flag: str, selected: Optional[str] = None) -> Callable:
         """Air flag decorator to validate if a flag is actived"""
 
         def _is_active_flag(func: Callable) -> Callable:
@@ -65,6 +65,12 @@ class AirFlag:
             def wrapped(*args: List, **kwargs: Mapping) -> Optional[Callable]:
                 if not getattr(self, flag):
                     return None
+
+                if selected:
+                    f = getattr(self, flag)
+                    if not f(selected):
+                        return None
+
                 return func(*args, **kwargs)
 
             return wrapped

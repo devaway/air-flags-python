@@ -21,6 +21,10 @@ flag_name:
 other_flag:
     value: true
     description: This is an actived flag
+sel_flag:
+    value: true
+    description: This is an actived flag
+    selectived: ["id-1234", "id-5678"]
 ```
 JSON
 ```json
@@ -55,6 +59,7 @@ Flag:
 | flag_name | The flag_name is the name of the flag | str | Yes |
 | value | Status of the flag | bool | Yes |
 | description | Short description of the flag | str | No |
+| selectived | Identifiers selectives for the flag | str / list | No |
 | rollout | Custom object to set up | object | No |
 
 Canary rollout:
@@ -92,18 +97,32 @@ flags = air_flags.init("/path/to/af_definition.json")
 if flags.flag_name:
     print("Oh yeah!")
 
+# Used as boolean statement with selectived
+client_id = "id-1234"
+if flags.flag_name(client_id):
+    print("Oh yeah!")
+
 # Used as decorator
 @flags.is_active("flag_name")
 def order_beer():
     pass
+
+# Used as decorator with selectived
+client_id = "id-1234"
+@flags.is_active("flag_name", client_id)
+def order_beer():
+    pass
 ```
 
-## Best practices
+## Best practices and considerations
 Increased technical debt is a common objection to implementing feature flags.
 * Standardize naming:
   * Naming your flags to be as much descriptive as possible.
   * Use prefixes to categorize / group them.
   * Include a description with expected the behavior.
+* Priorities using `selectived` checks:
+  * Active if the identifier is selectived.
+  * Check rollout and value if the identifier is not selectived.
 * Using `rollout` can generate different value outputs, be careful re-using the same flag in different parts of your application.
 
 ## Contributing to the SDK

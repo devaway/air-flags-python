@@ -13,6 +13,17 @@ SCHEMA_VALIDATOR = {
     "properties": {
         "value": {"type": "boolean"},
         "description": {"type": "string"},
+        "selectived": {
+            "oneOf": [
+                {"type": "string"},
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                    },
+                },
+            ],
+        },
         "rollout": {
             "type": "object",
             "properties": {

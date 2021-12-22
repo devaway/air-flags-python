@@ -1,3 +1,7 @@
+from typing import Any
+
+import pytest
+
 from air_flags.flag import Flag
 
 
@@ -13,3 +17,30 @@ def test_flag_with_description() -> None:
 
     assert str(flag) == "This is an amazing flag"
     assert bool(flag)
+
+
+@pytest.mark.parametrize(
+    "val,sel,selected,expected",
+    [
+        (False, ["1234", "5678"], "1234", True),
+        (True, ["1234", "5678"], "1234", True),
+        (False, ["1234", "5678"], "abcd", False),
+        (True, ["1234", "5678"], "abcd", True),
+        (False, "1234", "abcde", False),
+        (True, "1234", "abcde", True),
+        (False, "1234", "1234", True),
+        (True, "1234", "1234", True),
+        (True, None, "1234", True),
+    ],
+)
+def test_flag_with_selectived(
+    val: bool, sel: Any, selected: str, expected: bool
+) -> None:
+    flag = Flag(
+        value=val,
+        description="This is an amazing flag",
+        selectived=sel,
+    )
+
+    assert str(flag) == "This is an amazing flag"
+    assert bool(flag(selected)) == expected
