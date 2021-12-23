@@ -5,7 +5,41 @@ on:
     types: [published]
 
 jobs:
+  versioning:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Semver Validator
+      uses: rubenesp87/semver-validation-action@0.0.6
+      with:
+        version: ${{ github.event.release.tag_name }}
+
+    - name: Modify CHANGELOG
+      run: |
+        git init
+        git remote add origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        git pull https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+
+        if grep -w ${{ github.event.release.tag_name }} CHANGELOG.md; then
+            echo "Error: ${{ github.event.release.tag_name }} already released, found a changelog entry for it."
+            exit 1
+        fi
+
+        sed -i 's/__version__ =.*/__version__ = "${{ github.event.release.tag_name }}"/' _version.py
+
+        DATE=`date +%Y-%m-%d`
+        echo $"## ${{ github.event.release.tag_name }}  ($DATE)" > /tmp/chlog
+        echo $"${{ github.event.release.body }}\n" >> /tmp/chlog
+        cat CHANGELOG.md >> /tmp/chlog
+        cp /tmp/chlog CHANGELOG.md
+
+        git config --global user.name 'devaway'
+        git config --global user.email 'devaway@users.noreply.github.com'
+        git add CHANGELOG.md _version.py
+        git commit -m "Release ${{ github.event.release.tag_name }}"
+        git push --set-upstream origin master
+
   deploy:
+    needs: versioning
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
