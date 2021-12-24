@@ -7,7 +7,7 @@ GREEN  := $(shell tput -Txterm setaf 2)
 YELLOW := $(shell tput -Txterm setaf 3)
 WHITE  := $(shell tput -Txterm setaf 7)
 RESET  := $(shell tput -Txterm sgr0)
-TARGET_MAX_CHAR_NUM=10
+TARGET_MAX_CHAR_NUM=14
 
 
 .PHONY: venv
@@ -35,7 +35,12 @@ test:
 .PHONY: coverage
 ## Run the tests with coverage.
 coverage:
-	$(VENV_PATH)/bin/python -m pytest --cov=air_flags --cov-report term-missing
+	$(VENV_PATH)/bin/python -m pytest --cov=air_flags --cov-report=term-missing
+
+.PHONY: test-coverage
+## Run the tests with coverage and fail under 80%.
+test-coverage:
+	$(VENV_PATH)/bin/python -m pytest --cov=air_flags --cov-report=term-missing --cov-fail-under=80
 
 .PHONY: lint
 ## Run all linter checks.
