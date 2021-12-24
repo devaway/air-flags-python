@@ -40,7 +40,7 @@ coverage:
 .PHONY: test-coverage
 ## Run the tests with coverage and fail under 80%.
 test-coverage:
-	$(VENV_PATH)/bin/python -m pytest --cov=air_flags --cov-report=term-missing --cov-fail-under=80
+	$(VENV_PATH)/bin/python -m pytest --cov=air_flags --cov-report=term-missing --cov-fail-under=99
 
 .PHONY: lint
 ## Run all linter checks.

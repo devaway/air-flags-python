@@ -25,5 +25,5 @@ jobs:
       - name: Run linter
         run: make lint
 
-      - name: Run tests
+      - name: Run test-coverage
         run: make test
