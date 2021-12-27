@@ -1,13 +1,15 @@
 from setuptools import find_packages, setup
 
-VERSION = "0.1.4"
 DESCRIPTION = "Air flags python library"
 LONG_DESCRIPTION = "Air flags library to manage Python feature flags"
 
 setup(
     name="airflags",
     packages=find_packages(include=["air_flags"]),
-    version=VERSION,
+    version=open("air_flags/_version.py")
+    .readlines()[-1]
+    .split()[-1]
+    .strip("\"'"),
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",

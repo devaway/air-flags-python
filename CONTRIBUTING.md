@@ -24,3 +24,18 @@ Of course you can always run the underlying commands yourself.
 
 ## Pull Request Guidelines
 Before you submit a pull request, check that it meets these guidelines:
+
+## Releases
+* Go to Github releases and Draft a new release
+* Create a new tag based on [Semantic Versioning](https://semver.org/)
+* Add the same tag name as release title
+* Include into the release description the proper changes
+  * Bug Fixes
+  * New Features
+  * Code improvements
+  * Documentation Updates
+* Publish the release
+* Release action will be triggered automatically
+  * The new version will be updated in the pkg
+  * The CHANGELOG will be updated with the body of the release
+  * The new version will be released into PyPi
