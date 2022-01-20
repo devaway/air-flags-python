@@ -1,3 +1,10 @@
+## 0.1.5  (2022-01-19)
+New Features
+- Selectived flags
+
+Code improvements
+- Enforce min 80% of coverage
+- Automate versioning\n
 ## 0.1.4 (2021-12-16)
 #### New Features
 * Automated releases with Github actions
